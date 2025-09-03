@@ -3,8 +3,8 @@
 // #include <ESPAsyncWebServer.h>
 #include <DNSServer.h>
 
-const char *ssid = "";
-const char *password = "12345678";
+const char *ssid = "BordForRelax";
+const char *password = "poomrelax11699";
 IPAddress apIP(1,1,1,1);
 
 WebServer server(80);
@@ -32,7 +32,7 @@ void setup() {
   Serial.begin(115200);
   
 
-  WiFi.softAP(ssid);
+  WiFi.softAP(ssid, password);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255,255,255,0));
 
   Serial.println("start");
