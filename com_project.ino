@@ -3,6 +3,9 @@
 // #include <ESPAsyncWebServer.h>
 #include <DNSServer.h>
 
+#define BTN 4
+#define DDAA 15
+
 const char *ssid = "BordForRelax";
 const char *password = "poomrelax11699";
 IPAddress apIP(1,1,1,1);
@@ -18,21 +21,97 @@ void handleNotFound() {
   server.send(302, "text/plain", "");
 }
 
+// void hoot() {
+//   server.send(200, "text/html; charset=utf-8",  "<!DOCTYPE html>"
+//     "<html>"
+//     "<head><meta charset='UTF-8'><title>Hi</title></head>"
+//     "<body>"
+//     "<h1>Welcome เด้อ</h1>"
+//     "</body>"
+//     "</html>");
+// }
+
+String htmlindex = R"rawliteral(
+  <!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      
+      *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    
+      h1{
+        font-size: 20px;
+        font-family: Arial;
+        text-align: center;
+      }
+      
+      p{
+        color: rgba(0,0,0,0.5);
+        text-align: center;
+        font-size: 13px;
+        font-family: Courier;
+        margin-top: 10px;
+      }
+      
+      .btn{
+        /*border: 1px solid red;*/
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        margin-top: 5rem;
+      }
+      
+      button{
+        padding: 1rem 2rem;
+        border: none;
+        background: green;
+        color: #fff;
+        border-radius: 5px;
+        
+      }
+      
+      footer{
+        position: absolute;
+        bottom: 0;
+        background: #ccc;
+        width: 100%;
+        
+      }
+      
+      
+    </style>
+  </head>
+  <body>
+     <h1 id="">NO/OFF LIGHT</h1>
+     <p>เว็ปนี้เป็นเว็ปจำลองการเปิดปิดไฟ ของวิชาเทคโนโลยีและการออกแบบ</p>
+     <div class="btn">
+       <button>เปิด</button>
+     </div>
+     <!--<footer>-->
+     <!--  &copy; ห้อง4/1-->
+     <!--</footer>-->
+  </body>
+</html>
+)rawliteral";
+
 void hoot() {
-  server.send(200, "text/html; charset=utf-8",  "<!DOCTYPE html>"
-    "<html>"
-    "<head><meta charset='UTF-8'><title>Hi</title></head>"
-    "<body>"
-    "<h1>Welcome เด้อ</h1>"
-    "</body>"
-    "</html>");
+  server.send(200, "text/html"; , htmlindex);
 }
 
 void setup() {
   Serial.begin(115200);
   
+  pinMode(BTN, INPUT_PULLUP);
+  pinMode(DDAA, OUTPUT);
 
-  WiFi.softAP(ssid, password);
+  WiFi.softAP(ssid);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255,255,255,0));
 
   Serial.println("start");
@@ -56,8 +135,15 @@ void setup() {
 }
 
 void loop() {
+  bool ReadBTN = digitalRead(BTN);
   // put your main code here, to run repeatedly:
   dnsServer.processNextRequest();
   server.handleClient();
+
+  if(ReadBTN == 0) {
+    digitalWrite(DDAA, HIGH);
+  }else{
+    digitalWrite(DDAA, LOW);
+  }
 
 }
