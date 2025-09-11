@@ -325,7 +325,7 @@ void loop() {
 }
 
 BLYNK_WRITE(V1) {
-  int pinValue = param.asInt();   // อ่านค่าเป็น int
+  int pinValue = param.asInt();  
   if(pinValue == 1) {
     chang_oled();
     digitalWrite(DDAA, LOW);
